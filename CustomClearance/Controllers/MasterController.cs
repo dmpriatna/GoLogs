@@ -42,6 +42,7 @@ namespace GoLogs.CustomClearance.Controllers
             [FromQuery] int Start,
             [FromQuery] int Length,
             [FromQuery] string CreatedBy,
+            [FromQuery] string JobNumber,
             [FromQuery] bool? IsDraft
         )
         {
@@ -51,6 +52,7 @@ namespace GoLogs.CustomClearance.Controllers
                 {
                     CreatedBy = CreatedBy,
                     IsDraft = IsDraft,
+                    JobNumber = JobNumber,
                     Length = Length,
                     Start = Start
                 };

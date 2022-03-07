@@ -82,6 +82,7 @@ namespace GoLogs.CustomClearance.Commands
                     await Context.SaveChangesAsync();
                     PutFiles(request.Files, entity.Id, entity.ModifiedBy);
                     PutItems(request.Items, entity.Id, entity.ModifiedBy);
+                    PutLog(entity.Id, entity.PositionStatus, entity.PositionStatusName, entity.CreatedBy);
                     result = entity.JobNumber;
                 }
             }
@@ -98,6 +99,7 @@ namespace GoLogs.CustomClearance.Commands
                 await Context.SaveChangesAsync();
                 PutFiles(request.Files, newEntity.Id, newEntity.CreatedBy);
                 PutItems(request.Items, newEntity.Id, newEntity.CreatedBy);
+                PutLog(newEntity.Id, newEntity.PositionStatus, newEntity.PositionStatusName, newEntity.CreatedBy);
                 result = newEntity.JobNumber;
             }
             
@@ -160,6 +162,20 @@ namespace GoLogs.CustomClearance.Commands
                     }
                     Context.SaveChanges();
                 }
+        }
+        
+        private void PutLog(Guid CcId, int Pos, string PosName, string Actor = "System")
+        {
+            var newEntity = new CustomClearanceLogEntity
+            {
+                CreatedBy = Actor,
+                CustomClearanceId = CcId,
+                PositionStatus = Pos,
+                PositionStatusName = PosName
+            };
+
+            Context.Add(newEntity);
+            Context.SaveChanges();
         }
     }
 }

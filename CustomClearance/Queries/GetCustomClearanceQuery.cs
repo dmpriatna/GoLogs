@@ -51,6 +51,12 @@ namespace GoLogs.CustomClearance.Queries
 
             result.Items = iEntities.SelectSafe(To).ToArray();
 
+            var lEntities = await Context.CustomClearanceLogSet
+            .Where(w => w.CustomClearanceId == entity.Id)
+            .ToListAsync();
+
+            result.Logs = lEntities.SelectSafe(To).ToArray();
+
             return result;
         }
 
@@ -102,6 +108,16 @@ namespace GoLogs.CustomClearance.Queries
                 Quantity = s.Quantity
             };
         }
+
+        private CustomClearanceLogOut To(CustomClearanceLogEntity s)
+        {
+            return new CustomClearanceLogOut
+            {
+                LogDate = s.CreatedDate,
+                PositionStatus = s.PositionStatus,
+                PositionStatusName = s.PositionStatusName
+            };
+        }
     }
 
     public class CustomClearanceDetail
@@ -131,6 +147,7 @@ namespace GoLogs.CustomClearance.Queries
         public string[] NotifyEmail { get; set; }
         public CustomClearanceFileOut[] Files { get; set; }
         public CustomClearanceItemOut[] Items { get; set; }
+        public CustomClearanceLogOut[] Logs { get; set; }
     }
 
     public class CustomClearanceFileOut
@@ -146,5 +163,12 @@ namespace GoLogs.CustomClearance.Queries
         public string HsCode { get; set; }
         public string ItemName { get; set; }
         public int Quantity { get; set; }
+    }
+
+    public class CustomClearanceLogOut
+    {
+        public DateTime LogDate { get; set; }
+        public int PositionStatus { get; set; }
+        public string PositionStatusName { get; set; }
     }
 }

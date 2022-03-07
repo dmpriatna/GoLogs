@@ -15,6 +15,7 @@ namespace GoLogs.CustomClearance.Queries
         public int Start { get; set; }
         public int Length { get; set; }
         public string CreatedBy { get; set; }
+        public string JobNumber { get; set; }
         public bool? IsDraft { get; set; }
     }
 
@@ -44,6 +45,9 @@ namespace GoLogs.CustomClearance.Queries
 
             if (!string.IsNullOrWhiteSpace(request.CreatedBy))
             query = query.Where(w => w.CreatedBy == request.CreatedBy);
+
+            if (!string.IsNullOrWhiteSpace(request.JobNumber))
+            query = query.Where(w => w.JobNumber == request.JobNumber);
 
             count = query.Count();
             query = query.OrderByDescending(obd => obd.ModifiedDate);

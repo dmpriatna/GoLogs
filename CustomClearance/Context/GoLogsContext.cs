@@ -18,6 +18,7 @@ namespace CustomClearance.Context
         public virtual DbSet<CustomClearanceEntity> CustomClearanceSet { get; set; }
         public virtual DbSet<CustomClearanceFileEntity> CustomClearanceFileSet { get; set; }
         public virtual DbSet<CustomClearanceItemEntity> CustomClearanceItemSet { get; set; }
+        public virtual DbSet<CustomClearanceLogEntity> CustomClearanceLogSet { get; set; }
         public virtual DbSet<Persons> Persons { get; set; }
 
     public string JobNumber
@@ -203,6 +204,37 @@ namespace CustomClearance.Context
 
                 entity.Property(e => e.HsCode)
                     .IsRequired();
+            });
+
+            modelBuilder.Entity<CustomClearanceLogEntity>(entity =>
+            {
+                entity.Property(e => e.Id).HasDefaultValueSql("uuid_generate_v4()");
+
+                entity.Property(e => e.CreatedBy)
+                    .IsRequired()
+                    .HasMaxLength(36);
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.Property(e => e.ModifiedBy).HasMaxLength(36);
+
+                entity.Property(e => e.ModifiedDate)
+                    .HasColumnType("timestamp with time zone")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.Property(e => e.RowStatus).HasDefaultValueSql("1");
+
+                entity.Property(e => e.CustomClearanceId)
+                    .IsRequired();
+
+                entity.Property(e => e.PositionStatus)
+                    .IsRequired();
+
+                entity.Property(e => e.PositionStatusName)
+                    .IsRequired()
+										.HasMaxLength(32);
             });
 
             modelBuilder.Entity<Persons>(entity =>
