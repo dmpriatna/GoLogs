@@ -16,6 +16,7 @@ namespace GoLogs.CustomClearance.Queries
         public int Length { get; set; }
         public string CreatedBy { get; set; }
         public string JobNumber { get; set; }
+        public bool? IsComplete { get; set; }
         public bool? IsDraft { get; set; }
     }
 
@@ -36,6 +37,12 @@ namespace GoLogs.CustomClearance.Queries
         {
             int count = 0;
             var query = Context.CustomClearanceSet.AsQueryable();
+
+            if (request.IsComplete.HasValue && request.IsComplete.Value)
+            query = query.Where(w => w.PositionStatus == 5);
+
+            if (request.IsComplete.HasValue && !request.IsComplete.Value)
+            query = query.Where(w => w.PositionStatus != 5);
 
             if (request.IsDraft.HasValue && request.IsDraft.Value)
             query = query.Where(w => w.PositionStatus == 0);

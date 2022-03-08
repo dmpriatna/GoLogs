@@ -78,13 +78,18 @@ namespace CustomClearance.Context
             {
                 entity.Property(e => e.Id).HasDefaultValueSql("uuid_generate_v4()");
 
-                entity.Property(e => e.BlDate).HasMaxLength(16);
+                entity.Property(e => e.BlDate)
+                    .HasColumnType("timestamp with time zone");
 
                 entity.Property(e => e.BlNumber).HasMaxLength(32);
 
                 entity.Property(e => e.CargoOwnerName)
                     .IsRequired()
                     .HasMaxLength(64);
+
+                entity.Property(e => e.CargoOwnerNib)
+                    .IsRequired()
+                    .HasMaxLength(32);
 
                 entity.Property(e => e.CargoOwnerNpwp)
                     .IsRequired()
@@ -136,7 +141,12 @@ namespace CustomClearance.Context
                     .IsRequired()
                     .HasMaxLength(32);
 
-                entity.Property(e => e.RequestDate).HasMaxLength(16);
+                entity.Property(e => e.PpjkNib)
+                    .IsRequired()
+                    .HasMaxLength(32);
+
+                entity.Property(e => e.RequestDate)
+                    .HasColumnType("timestamp with time zone");
 
                 entity.Property(e => e.RowStatus).HasDefaultValueSql("1");
             });
@@ -234,7 +244,7 @@ namespace CustomClearance.Context
 
                 entity.Property(e => e.PositionStatusName)
                     .IsRequired()
-										.HasMaxLength(32);
+                    .HasMaxLength(32);
             });
 
             modelBuilder.Entity<Persons>(entity =>
