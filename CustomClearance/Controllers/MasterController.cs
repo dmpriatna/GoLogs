@@ -95,5 +95,25 @@ namespace GoLogs.CustomClearance.Controllers
                 throw se;
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatusCustom(
+            [FromBody] UpdateStatusRequest request
+        )
+        {
+            try
+            {
+                var result = await Mediator.Send(request);
+                return Ok(new
+                {
+                    Status = "Success",
+                    JobNumber = result
+                });
+            }
+            catch (System.Exception se)
+            {
+                throw se;
+            }
+        }
     }
 }
