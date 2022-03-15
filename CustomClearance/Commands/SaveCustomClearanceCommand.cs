@@ -12,6 +12,7 @@ namespace GoLogs.CustomClearance.Commands
     public class CustomClearanceRequest : IRequest<string>
     {
         public Guid? Id { get; set; }
+        public bool IsDelegate { get; set; }
         public bool IsDraft { get; set; }
         public string CargoOwnerNpwp { get; set; } = "";
         public string CargoOwnerNib { get; set; } = "";
@@ -29,9 +30,9 @@ namespace GoLogs.CustomClearance.Commands
         public string BlNumber { get; set; }
         public DateTime? BlDate { get; set; }
         public string CreatedBy { get; set; }
-        public string[] NotifyEmail { get; set; }
-        public CustomClearanceFileRequest[] Files { get; set; }
-        public CustomClearanceItemRequest[] Items { get; set; }
+        public string[] NotifyEmail { get; set; } = new string[] {};
+        public CustomClearanceFileRequest[] Files { get; set; } = new CustomClearanceFileRequest[] {};
+        public CustomClearanceItemRequest[] Items { get; set; } = new CustomClearanceItemRequest[] {};
     }
 
     public class CustomClearanceFileRequest
@@ -60,6 +61,7 @@ namespace GoLogs.CustomClearance.Commands
 
         public async Task<string> Handle(CustomClearanceRequest request, CancellationToken cancellationToken)
         {
+            byte rowStatus = request.IsDelegate ? (byte)2 : (byte)1;
             string result = "";
             string email = string.Join(";", request.NotifyEmail);
             if (request.Id.HasValue)
@@ -96,7 +98,7 @@ namespace GoLogs.CustomClearance.Commands
                 newEntity.NotifyEmail = email;
                 newEntity.PositionStatus = request.IsDraft ? 0 : 1;
                 newEntity.PositionStatusName = request.IsDraft ? "Draft" : "In Progress";
-                newEntity.RowStatus = (byte)(request.IsDraft ? 0 : 1);
+                newEntity.RowStatus = rowStatus;
                 await Context.AddAsync(newEntity);
                 await Context.SaveChangesAsync();
                 PutFiles(request.Files, newEntity.Id, newEntity.CreatedBy);

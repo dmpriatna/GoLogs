@@ -17,6 +17,7 @@ namespace GoLogs.CustomClearance.Queries
         public string CreatedBy { get; set; }
         public string JobNumber { get; set; }
         public bool? IsComplete { get; set; }
+        public bool? IsDelegate { get; set; }
         public bool? IsDraft { get; set; }
     }
 
@@ -44,6 +45,12 @@ namespace GoLogs.CustomClearance.Queries
             if (request.IsComplete.HasValue && !request.IsComplete.Value)
             query = query.Where(w => w.PositionStatus != 5);
 
+            if (request.IsDelegate.HasValue && request.IsDelegate.Value)
+            query = query.Where(w => w.RowStatus == 2);
+
+            if (request.IsDelegate.HasValue && !request.IsDelegate.Value)
+            query = query.Where(w => w.RowStatus > 0);
+
             if (request.IsDraft.HasValue && request.IsDraft.Value)
             query = query.Where(w => w.PositionStatus == 0);
 
@@ -70,6 +77,7 @@ namespace GoLogs.CustomClearance.Queries
             {
                 CreatedDate = s.CreatedDate,
                 Id = s.Id,
+                IsDelegate = s.RowStatus == 2,
                 JobNumber = s.JobNumber,
                 ModifiedDate = s.ModifiedDate,
                 PositionStatus = s.PositionStatus
@@ -88,6 +96,7 @@ namespace GoLogs.CustomClearance.Queries
     public class CustomClearanceOut
     {
         public Guid Id { get; set; }
+        public bool IsDelegate { get; set; }
         public string JobNumber { get; set; }
         public int PositionStatus { get; set; }
         public DateTime CreatedDate { get; set; }

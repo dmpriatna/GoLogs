@@ -44,6 +44,7 @@ namespace GoLogs.CustomClearance.Controllers
             [FromQuery] string CreatedBy,
             [FromQuery] string JobNumber,
             [FromQuery] bool? IsComplete,
+            [FromQuery] bool? IsDelegate,
             [FromQuery] bool? IsDraft
         )
         {
@@ -52,8 +53,9 @@ namespace GoLogs.CustomClearance.Controllers
                 var request = new ListCustomClearanceRequest
                 {
                     CreatedBy = CreatedBy,
-                    IsDraft = IsDraft,
                     IsComplete = IsComplete,
+                    IsDelegate = IsDelegate,
+                    IsDraft = IsDraft,
                     JobNumber = JobNumber,
                     Length = Length,
                     Start = Start
