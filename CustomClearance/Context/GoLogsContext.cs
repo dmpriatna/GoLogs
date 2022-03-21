@@ -14,6 +14,7 @@ namespace CustomClearance.Context
         {
         }
 
+        public virtual DbSet<CeisaEntity> CeisaSet { get; set; }
         public virtual DbSet<Companies> Companies { get; set; }
         public virtual DbSet<CustomClearanceEntity> CustomClearanceSet { get; set; }
         public virtual DbSet<CustomClearanceFileEntity> CustomClearanceFileSet { get; set; }

@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using CustomClearance.Context;
 using GoLogs.CustomClearance.Ceisa;
 using GoLogs.CustomClearance.Models;
 using GoLogs.CustomClearance.ViewModels;
@@ -12,10 +13,12 @@ namespace GoLogs.CustomClearance.Controllers
     [ApiController, Authorize, Route("[controller]/[action]")]
     public class CeisaController : Controller
     {
-        public CeisaController()
+        public CeisaController(GoLogsContext context)
         {
-
+            Context = context;
         }
+
+        private GoLogsContext Context;
         
         [HttpPost]
         public async Task<IActionResult> DocImport(PostImporRequest request)
@@ -26,7 +29,7 @@ namespace GoLogs.CustomClearance.Controllers
                 var token = accessToken.ToString()[7..];
                 var decodeJwtToken = Common.Helper.DecodeJwtToken(accessToken.ToString()[7..]);
                 var authSession = await Precheck3rdPartySession();
-                var impor = new PostImpor(authSession.AccessToken);
+                var impor = new PostImpor(authSession.AccessToken, Context);
                 return Ok(await impor.Execute(request));
             }
             catch (Exception ex)

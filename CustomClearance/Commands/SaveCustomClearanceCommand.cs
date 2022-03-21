@@ -30,6 +30,51 @@ namespace GoLogs.CustomClearance.Commands
         public string BlNumber { get; set; }
         public DateTime? BlDate { get; set; }
         public string CreatedBy { get; set; }
+
+        public string SenderName { get; set; } = "";
+        public string SenderAddress { get; set; } = "";
+        public string SellerName { get; set; } = "";
+        public string SellerAddress { get; set; } = "";
+        public string ImportirName { get; set; } = "";
+        public string ImportirAddress { get; set; } = "";
+        public string CargoOwnerAddress { get; set; } = "";
+        public string RegistrationNumber { get; set; } = "";
+        public DateTime? RegistrationDate { get; set; }
+        public string ModaType { get; set; } = "";
+        public string VoyageName { get; set; } = "";
+        public string VoyageNumber { get; set; } = "";
+        public DateTime? EstimatedTimeArrival { get; set; }
+        public string PortOfLoadingName { get; set; } = "";
+        public string PortOfTransitName { get; set; } = "";
+        public string PortOfDestinationName { get; set; } = "";
+        public string PortOfLoadingCode { get; set; } = "";
+        public string PortOfTransitCode { get; set; } = "";
+        public string PortOfDestinationCode { get; set; } = "";
+        public string InvoiceNumber { get; set; } = "";
+        public string KmdTransactionNumber { get; set; } = "";
+        public string DocumentNumber { get; set; } = "";
+        public DateTime? DocumentDate { get; set; }
+        public string ImportFacilityDescription { get; set; } = "";
+        public string ImportFacilityCode { get; set; } = "";
+        public string WarehouseName { get; set; } = "";
+        public string WarehouseCode { get; set; } = "";
+        public string CurrencyName { get; set; } = "";
+        public string CurrencyCode { get; set; } = "";
+        public double? Ndpbm { get; set; } = 0;
+        public double? FobTotal { get; set; } = 0;
+        public double? InsuranceTotal { get; set; } = 0;
+        public double? FreightTotal { get; set; } = 0;
+        public double? ClearanceTotal { get; set; } = 0;
+        public double? GrandTotal { get; set; } = 0;
+        public string ContainerNumber { get; set; } = "";
+        public string ContainerSize { get; set; } = "";
+        public string ContainerType { get; set; } = "";
+        public double? PackagingTotal { get; set; } = 0;
+        public string PackagingType { get; set; } = "";
+        public string PackagingBrand { get; set; } = "";
+        public double? GrossWeight { get; set; } = 0;
+        public double? NettWeight { get; set; } = 0;
+
         public string[] NotifyEmail { get; set; } = new string[] {};
         public CustomClearanceFileRequest[] Files { get; set; } = new CustomClearanceFileRequest[] {};
         public CustomClearanceItemRequest[] Items { get; set; } = new CustomClearanceItemRequest[] {};
