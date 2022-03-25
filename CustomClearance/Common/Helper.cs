@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace GoLogs.CustomClearance.Common
@@ -37,6 +38,7 @@ namespace GoLogs.CustomClearance.Common
 
     public static JwtDecodedClaims DecodeJwtToken(string accessToken)
     {
+      IdentityModelEventSource.ShowPII = true;
       var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
       var handler = new JwtSecurityTokenHandler();
       var validations = new TokenValidationParameters
