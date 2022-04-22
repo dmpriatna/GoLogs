@@ -11,7 +11,7 @@ namespace GoLogs.CustomClearance.Ceisa
     {
         private RestClient newRestClient()
         {
-            var options = new RestClientOptions("https://apisdev-gw.beacukai.go.id/nle-oauth/oauth/v1")
+            var options = new RestClientOptions("https://nlehub.kemenkeu.go.id/nle-oauth/oauth/v1")
             {
                 ConfigureMessageHandler = handler =>
                     new HttpTracerHandler(handler, new ConsoleLogger(), HttpMessageParts.All)

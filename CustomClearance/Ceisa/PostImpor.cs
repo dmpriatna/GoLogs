@@ -8,17 +8,21 @@ namespace GoLogs.CustomClearance.Ceisa
 {
     public class PostImpor : ApiClient
     {
-        public PostImpor(string token, GoLogsContext context) : base(token)
+        public PostImpor(GoLogsContext context)
         {
+            BaseUrl = "https://nlehub.kemenkeu.go.id";
             Context = context;
         }
 
         private GoLogsContext Context { get; }
+        public bool IsFinal { set { _isFinal = value; } }
+        private bool _isFinal;
 
         public async Task<object> Execute(PostImporRequest request)
         {
-            var restClient = buildHttpClient("https://apisdev-gw.beacukai.go.id");
-            var restRequest = new RestRequest("/openapi/document", Method.Post)
+            var resource = $"/openapi/document?isFinal={_isFinal}";
+            var restClient = buildHttpClient();
+            var restRequest = new RestRequest(resource, Method.Post)
             .AddJsonBody(request);
 
             var restResponse = await restClient.PostAsync(restRequest);
@@ -37,8 +41,14 @@ namespace GoLogs.CustomClearance.Ceisa
             await Context.SaveChangesAsync();
 
             return restResponse;
-            // var imporResponse = JsonConvert.DeserializeObject<ImporResponse>(response.Content);
-            // return imporResponse;
+        }
+
+        public async Task<string> CheckStatus(string nomorAju)
+        {
+            var httpClient = buildHttpClient();
+            var request = new RestRequest($"/openapi/status/{nomorAju}");
+            var response = await httpClient.GetAsync(request);
+            return response.Content;
         }
     }
 }

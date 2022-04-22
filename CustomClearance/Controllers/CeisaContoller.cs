@@ -20,8 +20,11 @@ namespace GoLogs.CustomClearance.Controllers
 
         private GoLogsContext Context;
         
-        [HttpPost]
-        public async Task<IActionResult> DocImport(PostImporRequest request)
+        [HttpPost()]
+        public async Task<IActionResult> DocImport(
+            PostImporRequest request,
+            [FromQuery] bool isFinal
+        )
         {
             try
             {
@@ -29,7 +32,9 @@ namespace GoLogs.CustomClearance.Controllers
                 var token = accessToken.ToString()[7..];
                 var decodeJwtToken = Common.Helper.DecodeJwtToken(accessToken.ToString()[7..]);
                 var authSession = await Precheck3rdPartySession();
-                var impor = new PostImpor(authSession.AccessToken, Context);
+                var impor = new PostImpor(Context);
+                impor.IsFinal = isFinal;
+                impor.Token = authSession.AccessToken;
                 return Ok(await impor.Execute(request));
             }
             catch (Exception ex)
@@ -43,11 +48,32 @@ namespace GoLogs.CustomClearance.Controllers
             var postLogin = new PostLogin();
             var authResponse = await postLogin.Execute(new AuthRequest()
             {
-                Username = "userdemo",
-                Password = "Aa12345678"
+                Username = "gologs", // "userdemoscs", // "userdemo",
+                Password = "GoLogs@123"// "Scs123456" // "Aa12345678"
             });
             authResponse.Item.ExpiredDateTime = DateTime.Now.AddSeconds(authResponse.Item.ExpiresIn);
             return authResponse.Item;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CheckStatus([FromQuery] string nomorAju)
+        {
+            try
+            {
+                var accessToken = Request.Headers[HeaderNames.Authorization];
+                var token = accessToken.ToString()[7..];
+                var decodeJwtToken = Common.Helper.DecodeJwtToken(accessToken.ToString()[7..]);
+                var authSession = await Precheck3rdPartySession();
+                var impor = new PostImpor(Context);
+                impor.Token = authSession.AccessToken;
+                var response = await impor.CheckStatus(nomorAju);
+                var result = Newtonsoft.Json.JsonConvert.DeserializeObject(response);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
