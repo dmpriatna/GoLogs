@@ -107,7 +107,22 @@ namespace GoLogs.CustomClearance.Queries
                 HsCode = s.HsCode,
                 Id = s.Id,
                 ItemName = s.ItemName,
-                Quantity = s.Quantity
+                Quantity = s.Quantity,
+
+                BeratBersih = s.BeratBersih,
+                FasilitasNoUrut = s.FasilitasNoUrut,
+                JatuhTempo = s.JatuhTempo,
+                JenisNilaiPabean = s.JenisNilaiPabean,
+                KondisiBarang = s.KondisiBarang,
+                Merk = s.Merk,
+                Negara = s.Negara,
+                NilaiDitambahkan = s.NilaiDitambahkan,
+                NilaiPabean = s.NilaiPabean,
+                PosTarif = s.PosTarif,
+                Satuan = s.Satuan,
+                SatuanBeratBersih = s.SatuanBeratBersih,
+                TarifFasilitas = s.TarifFasilitas,
+                TipeBarang = s.TipeBarang
             };
         }
 
@@ -167,6 +182,21 @@ namespace GoLogs.CustomClearance.Queries
         public string HsCode { get; set; }
         public string ItemName { get; set; }
         public int Quantity { get; set; }
+
+        public string PosTarif { get; set; }
+        public string Merk { get; set; }
+        public string TipeBarang { get; set; }
+        public string KondisiBarang { get; set; }
+        public string Negara { get; set; }
+        public string FasilitasNoUrut { get; set; }
+        public string TarifFasilitas { get; set; }
+        public string Satuan { get; set; }
+        public double? BeratBersih { get; set; }
+        public string SatuanBeratBersih { get; set; }
+        public double? NilaiPabean { get; set; }
+        public double? JenisNilaiPabean { get; set; }
+        public double? NilaiDitambahkan { get; set; }
+        public string JatuhTempo { get; set; }
     }
 
     public class CustomClearanceLogOut
